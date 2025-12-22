@@ -104,7 +104,7 @@ Organizations struggle to manage scattered user feedback across multiple channel
 1. **Clone the repository**
 ```bash
 git clone <repository-url>
-cd clueso-clone
+cd clueso-feedback-platform
 ```
 
 2. **Backend Setup**
@@ -150,7 +150,7 @@ npm run dev
 ## 📁 Project Structure
 
 ```
-clueso-clone/
+clueso-feedback-platform/
 │
 ├── frontend/
 │   ├── src/
@@ -187,7 +187,7 @@ clueso-clone/
 │   │   │   └── aiService.js
 │   │   └── server.js
 │   ├── package.json
-│   └── .env
+│   └── .env.example
 │
 └── README.md
 ```
