@@ -1,4 +1,4 @@
-# Clueso.io Clone - AI-Powered Feedback Management System
+# Clueso Clone – AI-Powered Feedback Management System
 
 ## 🎯 Project Overview
 
@@ -29,7 +29,7 @@ Organizations struggle to manage scattered user feedback across multiple channel
 
 ### 4. **Real-Time Updates (WebSocket Integration)**
 - Live dashboard updates when new feedback arrives
-- Instant synchronization across multiple clients
+- Near real-time synchronization across multiple clients using Socket.IO
 - Socket.IO implementation for bidirectional communication
 
 ### 5. **AI-Powered Insights**
@@ -231,6 +231,8 @@ The application uses Socket.IO for real-time communication:
 
 *Current implementation supports both modes based on API key availability.*
 
+In this submission, the mock AI service is enabled by default to ensure consistent local execution. The architecture supports seamless replacement with a real OpenAI provider.
+
 ## 📝 Assumptions & Design Decisions
 
 1. **AI Service**: Mock AI service implemented as fallback when OpenAI API key is unavailable
@@ -241,13 +243,15 @@ The application uses Socket.IO for real-time communication:
 
 ## 🧪 Testing
 
-Run backend tests:
+Testing hooks are scaffolded. Automated tests can be added using Jest and React Testing Library.
+
+Backend testing setup:
 ```bash
 cd backend
 npm test
 ```
 
-Run frontend tests:
+Frontend testing setup:
 ```bash
 cd frontend
 npm test
