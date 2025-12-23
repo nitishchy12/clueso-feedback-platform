@@ -110,6 +110,24 @@ app.get('/api/health', (req, res) => {
   });
 });
 
+// Debug endpoint for CORS verification
+app.get('/api/debug', (req, res) => {
+  res.json({
+    status: 'OK',
+    cors: {
+      origin: req.headers.origin,
+      allowedOrigins: [
+        process.env.FRONTEND_URL || "http://localhost:3000",
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "https://clueso-feedback-platform.vercel.app"
+      ]
+    },
+    environment: process.env.NODE_ENV || 'development',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Socket.IO connection handling
 io.on('connection', (socket) => {
   console.log(`🔌 User connected: ${socket.id}`);
