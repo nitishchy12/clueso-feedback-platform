@@ -233,6 +233,16 @@ The application uses Socket.IO for real-time communication:
 
 In this submission, the mock AI service is enabled by default to ensure consistent local execution. The architecture supports seamless replacement with a real OpenAI provider.
 
+## ⏳ Free Tier Hosting Notice
+
+This backend is deployed on Render's free tier. Due to platform limitations, the service may spin down after inactivity.
+
+As a result:
+- The **first request** after inactivity may take **30–50 seconds**
+- Subsequent requests respond normally
+
+This is a hosting constraint, not an application issue.
+
 ## 📝 Assumptions & Design Decisions
 
 1. **AI Service**: Mock AI service implemented as fallback when OpenAI API key is unavailable

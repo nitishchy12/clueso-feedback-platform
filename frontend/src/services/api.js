@@ -6,7 +6,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 // Create axios instance
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
-  timeout: 10000,
+  timeout: 60000, // Increased to 60s to handle backend wake-up
   headers: {
     'Content-Type': 'application/json',
   },
@@ -32,9 +32,17 @@ api.interceptors.response.use(
   (error) => {
     console.error('API Error:', error);
     
-    // Handle network errors
+    // Handle network errors (including backend wake-up scenarios)
     if (!error.response) {
-      toast.error('Network error. Please check your connection and try again.');
+      // Check if it's a timeout or connection error (common during backend wake-up)
+      if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK') {
+        toast.error('Backend is waking up. Please wait a few seconds and retry.', {
+          duration: 4000,
+          icon: '⏳'
+        });
+      } else {
+        toast.error('Network error. Please check your connection and try again.');
+      }
       return Promise.reject(error);
     }
     
