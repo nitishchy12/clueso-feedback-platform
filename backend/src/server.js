@@ -37,7 +37,7 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS configuration - more permissive for development
+// CORS configuration - explicit and secure
 app.use(cors({
   origin: [
     process.env.FRONTEND_URL || "http://localhost:3000",
@@ -72,7 +72,30 @@ app.use('/api/auth', authRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/insights', insightsRoutes);
 
-// Health check endpoint
+// Root endpoint - professional API landing
+app.get("/", (req, res) => {
+  res.status(200).json({
+    status: "OK",
+    service: "Clueso Backend API",
+    version: "1.0.0",
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: "/health",
+      api: "/api",
+      auth: "/api/auth",
+      feedback: "/api/feedback",
+      insights: "/api/insights"
+    }
+  });
+});
+
+// Health check endpoint - industry standard
+app.get("/health", (req, res) => {
+  res.status(200).send("healthy");
+});
+
+// API Health check endpoint (more detailed)
 app.get('/api/health', (req, res) => {
   res.json({ 
     status: 'OK', 
@@ -112,8 +135,10 @@ app.use('*', (req, res) => {
 const PORT = process.env.PORT || 5000;
 
 server.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`📊 Dashboard: http://localhost:${PORT}/api/health`);
+  console.log(`🚀 Clueso Backend API running on port ${PORT}`);
+  console.log(`📊 Health Check: http://localhost:${PORT}/health`);
+  console.log(`🔗 API Docs: http://localhost:${PORT}/`);
+  console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 
 module.exports = { app, server, io };
