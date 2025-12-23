@@ -30,7 +30,14 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('API Error:', error);
+    console.error('🚨 API Error Details:', {
+      url: error.config?.url,
+      method: error.config?.method,
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message
+    });
     
     // Handle network errors (including backend wake-up scenarios)
     if (!error.response) {
@@ -85,12 +92,18 @@ export const authService = {
   },
 
   async login(credentials) {
+    console.log('🔍 Login attempt:', {
+      url: `${API_BASE_URL}/api/auth/login`,
+      credentials: { email: credentials.email, password: '[HIDDEN]' }
+    });
+    
     const response = await api.post('/auth/login', credentials);
     const { user, token } = response.data;
     
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     
+    console.log('✅ Login successful');
     return response.data;
   },
 

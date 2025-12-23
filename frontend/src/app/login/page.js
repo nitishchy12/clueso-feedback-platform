@@ -7,6 +7,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { Eye, EyeOff, MessageSquare, ArrowLeft } from 'lucide-react';
 import { authService } from '@/services/api';
+import DebugInfo from '@/components/DebugInfo';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -183,6 +184,8 @@ export default function LoginPage() {
           </p>
         </div>
       </div>
+      
+      <DebugInfo />
     </div>
   );
 }
