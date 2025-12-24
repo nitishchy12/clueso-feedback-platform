@@ -95,12 +95,45 @@ Organizations struggle to manage scattered user feedback across multiple channel
 ## 🚀 Setup Instructions
 
 ### Prerequisites
+- Docker and Docker Compose
+- Git
+
+### Quick Start (Recommended)
+
+```bash
+# Clone the repository
+git clone https://github.com/nitishchy12/clueso-feedback-platform.git
+cd clueso-feedback-platform
+
+# Start all services
+docker-compose up -d
+
+# View logs (optional)
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+```
+
+### Manual Setup (Alternative)
+
+If you prefer to run without Docker:
+
+#### Prerequisites
 - Node.js (v18 or higher)
 - MongoDB (local or Atlas)
 - npm or yarn
 
 ### Installation
 
+#### Docker Setup (Recommended)
+```bash
+git clone <repository-url>
+cd clueso-feedback-platform
+docker-compose up -d
+```
+
+#### Manual Setup
 1. **Clone the repository**
 ```bash
 git clone <repository-url>
@@ -146,6 +179,25 @@ npm run dev
 4. **Access the Application**
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:5000
+
+## 🐳 Docker Commands
+
+```bash
+# Start all services
+docker-compose up -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all services
+docker-compose down
+
+# Rebuild and start
+docker-compose up --build -d
+
+# Remove all containers and volumes
+docker-compose down -v
+```
 
 ## 📁 Project Structure
 
@@ -235,13 +287,37 @@ In this submission, the mock AI service is enabled by default to ensure consiste
 
 ## ⏳ Free Tier Hosting Notice
 
-This backend is deployed on Render's free tier. Due to platform limitations, the service may spin down after inactivity.
+~~This backend is deployed on Render's free tier. Due to platform limitations, the service may spin down after inactivity.~~
 
-As a result:
-- The **first request** after inactivity may take **30–50 seconds**
-- Subsequent requests respond normally
+**UPDATE: This application now uses Docker for deployment, providing consistent performance and eliminating cold start issues.**
 
-This is a hosting constraint, not an application issue.
+## 🐳 Docker Deployment
+
+This application is containerized using Docker for easy deployment and consistent environments.
+
+### Quick Start with Docker
+
+```bash
+# Clone the repository
+git clone https://github.com/nitishchy12/clueso-feedback-platform.git
+cd clueso-feedback-platform
+
+# Start all services (MongoDB + Backend + Frontend)
+docker-compose up -d
+
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
+# MongoDB: localhost:27017
+```
+
+### Docker Services
+
+- **MongoDB**: Database service with persistent data storage
+- **Backend**: Node.js/Express API server
+- **Frontend**: Next.js React application
+
+All services communicate internally via Docker networking, eliminating CORS and connectivity issues.
 
 ## 📝 Assumptions & Design Decisions
 
@@ -269,6 +345,12 @@ npm test
 
 ## 🚢 Deployment Considerations
 
+### Docker Deployment (Recommended)
+- **Container Registry**: Push to Docker Hub or GitHub Container Registry
+- **Cloud Platforms**: Deploy on AWS ECS, Google Cloud Run, or DigitalOcean
+- **VPS Deployment**: Use docker-compose on any VPS with Docker installed
+
+### Traditional Deployment
 - **Frontend**: Deploy on Vercel/Netlify
 - **Backend**: Deploy on Railway/Render/Heroku
 - **Database**: MongoDB Atlas for production

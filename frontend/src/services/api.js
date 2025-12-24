@@ -6,7 +6,7 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
 // Create axios instance
 const api = axios.create({
   baseURL: `${API_BASE_URL}/api`,
-  timeout: 60000, // Increased to 60s to handle backend wake-up
+  timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -30,26 +30,11 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    console.error('🚨 API Error Details:', {
-      url: error.config?.url,
-      method: error.config?.method,
-      status: error.response?.status,
-      statusText: error.response?.statusText,
-      data: error.response?.data,
-      message: error.message
-    });
+    console.error('API Error:', error);
     
-    // Handle network errors (including backend wake-up scenarios)
+    // Handle network errors
     if (!error.response) {
-      // Check if it's a timeout or connection error (common during backend wake-up)
-      if (error.code === 'ECONNABORTED' || error.code === 'ERR_NETWORK') {
-        toast.error('Backend is waking up. Please wait a few seconds and retry.', {
-          duration: 4000,
-          icon: '⏳'
-        });
-      } else {
-        toast.error('Network error. Please check your connection and try again.');
-      }
+      toast.error('Network error. Please check your connection and try again.');
       return Promise.reject(error);
     }
     
@@ -92,18 +77,12 @@ export const authService = {
   },
 
   async login(credentials) {
-    console.log('🔍 Login attempt:', {
-      url: `${API_BASE_URL}/api/auth/login`,
-      credentials: { email: credentials.email, password: '[HIDDEN]' }
-    });
-    
     const response = await api.post('/auth/login', credentials);
     const { user, token } = response.data;
     
     localStorage.setItem('token', token);
     localStorage.setItem('user', JSON.stringify(user));
     
-    console.log('✅ Login successful');
     return response.data;
   },
 

@@ -18,13 +18,8 @@ const server = createServer(app);
 // Socket.IO setup with CORS
 const io = new Server(server, {
   cors: {
-    origin: [
-      process.env.FRONTEND_URL || "http://localhost:3000",
-      "http://localhost:3000",
-      "https://clueso-feedback-platform.vercel.app"
-    ],
-    methods: ["GET", "POST"],
-    credentials: true
+    origin: "*",
+    methods: ["GET", "POST"]
   }
 });
 
@@ -42,14 +37,9 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS configuration - explicit and secure
+// CORS configuration - simple for Docker
 app.use(cors({
-  origin: [
-    process.env.FRONTEND_URL || "http://localhost:3000",
-    "http://localhost:3000",
-    "http://127.0.0.1:3000",
-    "https://clueso-feedback-platform.vercel.app"
-  ],
+  origin: "*",
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -107,24 +97,6 @@ app.get('/api/health', (req, res) => {
     status: 'OK', 
     timestamp: new Date().toISOString(),
     uptime: process.uptime()
-  });
-});
-
-// Debug endpoint for CORS verification
-app.get('/api/debug', (req, res) => {
-  res.json({
-    status: 'OK',
-    cors: {
-      origin: req.headers.origin,
-      allowedOrigins: [
-        process.env.FRONTEND_URL || "http://localhost:3000",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-        "https://clueso-feedback-platform.vercel.app"
-      ]
-    },
-    environment: process.env.NODE_ENV || 'development',
-    timestamp: new Date().toISOString()
   });
 });
 
