@@ -150,6 +150,12 @@ feedbackSchema.methods.addAIAnalysis = function(analysis) {
     suggestedActions: analysis.suggestedActions || [],
     confidenceScore: analysis.confidenceScore || 0.5
   };
+  
+  // Update sentiment from AI analysis
+  if (analysis.sentiment) {
+    this.sentiment = analysis.sentiment;
+  }
+  
   return this.save();
 };
 

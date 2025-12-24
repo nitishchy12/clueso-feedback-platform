@@ -36,17 +36,18 @@ const createFeedback = async (req, res) => {
     // Populate user data
     await feedback.populate('userId', 'name email');
 
+    // Generate AI analysis and wait for it to complete
+    try {
+      const analysis = await aiService.analyzeFeedback(feedback._id, message);
+      if (analysis) {
+        await feedback.addAIAnalysis(analysis);
+      }
+    } catch (err) {
+      console.error('AI analysis failed:', err);
+    }
+
     // Increment user feedback count
     await req.user.incrementFeedbackCount();
-
-    // Generate AI analysis (async, don't wait for it)
-    aiService.analyzeFeedback(feedback._id, message)
-      .then(analysis => {
-        if (analysis) {
-          feedback.addAIAnalysis(analysis);
-        }
-      })
-      .catch(err => console.error('AI analysis failed:', err));
 
     // Emit real-time update to all connected clients
     req.io.emit('feedback:new', {

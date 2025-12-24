@@ -85,30 +85,39 @@ class AIService {
       .filter(word => word.length > 3 && !commonWords.includes(word))
       .slice(0, 5);
 
-    // Simple sentiment analysis
-    const positiveWords = ['good', 'great', 'excellent', 'amazing', 'love', 'like', 'awesome', 'fantastic', 'wonderful', 'perfect'];
-    const negativeWords = ['bad', 'terrible', 'awful', 'hate', 'dislike', 'horrible', 'worst', 'broken', 'bug', 'error', 'problem', 'issue'];
+    // Enhanced sentiment analysis
+    const positiveWords = ['good', 'great', 'excellent', 'amazing', 'love', 'like', 'awesome', 'fantastic', 'wonderful', 'perfect', 'happy', 'satisfied', 'pleased', 'impressed', 'helpful', 'useful', 'easy', 'smooth', 'fast', 'reliable'];
+    const negativeWords = ['bad', 'terrible', 'awful', 'hate', 'dislike', 'horrible', 'worst', 'broken', 'bug', 'error', 'problem', 'issue', 'slow', 'difficult', 'confusing', 'frustrating', 'annoying', 'useless', 'crash', 'fail'];
     
     const positiveCount = words.filter(word => positiveWords.includes(word)).length;
     const negativeCount = words.filter(word => negativeWords.includes(word)).length;
     
     let sentiment = 'neutral';
-    if (positiveCount > negativeCount) sentiment = 'positive';
-    else if (negativeCount > positiveCount) sentiment = 'negative';
+    if (positiveCount > negativeCount && positiveCount > 0) {
+      sentiment = 'positive';
+    } else if (negativeCount > positiveCount && negativeCount > 0) {
+      sentiment = 'negative';
+    }
 
     // Generate summary
     const summary = message.length > 80 
       ? message.substring(0, 77) + '...' 
       : message;
 
-    // Generate suggested actions based on keywords
+    // Generate suggested actions based on keywords and sentiment
     const suggestedActions = [];
-    if (keywords.some(k => ['bug', 'error', 'broken', 'issue'].includes(k))) {
+    if (keywords.some(k => ['bug', 'error', 'broken', 'issue', 'crash', 'fail'].includes(k))) {
       suggestedActions.push('Investigate technical issue');
       suggestedActions.push('Assign to development team');
-    } else if (keywords.some(k => ['feature', 'add', 'new', 'request'].includes(k))) {
+    } else if (keywords.some(k => ['feature', 'add', 'new', 'request', 'improvement'].includes(k))) {
       suggestedActions.push('Evaluate feature request');
       suggestedActions.push('Add to product roadmap');
+    } else if (sentiment === 'negative') {
+      suggestedActions.push('Follow up with user to resolve concerns');
+      suggestedActions.push('Review user experience');
+    } else if (sentiment === 'positive') {
+      suggestedActions.push('Share positive feedback with team');
+      suggestedActions.push('Consider user testimonial');
     } else {
       suggestedActions.push('Review feedback with team');
       suggestedActions.push('Follow up with user');
@@ -118,7 +127,7 @@ class AIService {
       summary,
       keywords,
       suggestedActions,
-      confidenceScore: 0.6, // Mock confidence score
+      confidenceScore: 0.7, // Increased confidence for better sentiment detection
       sentiment
     };
   }
