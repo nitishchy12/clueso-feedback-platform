@@ -102,6 +102,115 @@ Organizations struggle to manage scattered user feedback across multiple channel
 └─────────────────────────────────────┘
 ```
 
+## 🚀 Getting Started
+
+### 📋 Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+- **Node.js** (v18 or higher) - [Download here](https://nodejs.org/)
+- **Docker & Docker Compose** - [Download here](https://www.docker.com/get-started)
+- **Git** - [Download here](https://git-scm.com/)
+
+### 🔧 Installation & Setup
+
+#### Option 1: Docker Setup (Recommended - Easiest)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/nitishchy12/clueso-feedback-platform.git
+cd clueso-feedback-platform
+
+# 2. Start all services with Docker
+docker-compose up -d
+
+# 3. Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
+# MongoDB: localhost:27017
+
+# 4. View logs (optional)
+docker-compose logs -f
+
+# 5. Stop services when done
+docker-compose down
+```
+
+#### Option 2: Manual Setup (For Development)
+
+```bash
+# 1. Clone the repository
+git clone https://github.com/nitishchy12/clueso-feedback-platform.git
+cd clueso-feedback-platform
+
+# 2. Install root dependencies
+npm install
+
+# 3. Install all project dependencies
+npm run install-all
+
+# 4. Set up environment variables
+# Backend: Copy backend/.env.example to backend/.env
+# Frontend: Copy frontend/.env.local.example to frontend/.env.local
+
+# 5. Start MongoDB (if running locally)
+# Make sure MongoDB is running on localhost:27017
+
+# 6. Start the application
+npm run dev
+
+# Frontend will be available at: http://localhost:3000
+# Backend API will be available at: http://localhost:5000
+```
+
+### 🌍 Environment Variables
+
+#### Backend (.env)
+```env
+PORT=5000
+MONGODB_URI=mongodb://localhost:27017/clueso
+JWT_SECRET=your_super_secret_jwt_key_here
+OPENAI_API_KEY=your_openai_api_key_optional
+NODE_ENV=development
+```
+
+#### Frontend (.env.local)
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
+```
+
+### 🧪 Testing the Application
+
+1. **Open your browser** and go to `http://localhost:3000`
+2. **Sign up** for a new account or use demo credentials:
+   - Email: `demo@clueso.io`
+   - Password: `Demo123!`
+3. **Submit feedback** to test the system
+4. **Check the dashboard** for real-time updates and AI insights
+
+### 🛠️ Development Commands
+
+```bash
+# Start development servers
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm run test
+
+# Install dependencies for both frontend and backend
+npm run install-all
+
+# Start only backend
+npm run dev-backend
+
+# Start only frontend
+npm run dev-frontend
+```
+
 ## 🐳 Docker Setup
 
 ### Prerequisites
@@ -123,16 +232,53 @@ docker-compose up -d
 # Backend API: http://localhost:5000
 ```
 
-### Docker Commands
+### Docker Commands (Advanced)
 
 ```bash
+# Start all services
+docker-compose up -d
+
 # View logs
 docker-compose logs -f
 
 # Stop all services
 docker-compose down
 
-# Rebuild and start
+# Rebuild and start (after code changes)
+docker-compose up --build -d
+
+# Remove all containers and volumes (clean reset)
+docker-compose down -v
+```
+
+### 🔧 Troubleshooting
+
+#### Common Issues
+
+**Port Already in Use**
+```bash
+# Kill processes on ports 3000 and 5000
+npx kill-port 3000
+npx kill-port 5000
+```
+
+**MongoDB Connection Issues**
+- Ensure MongoDB is running (for manual setup)
+- Check connection string in environment variables
+- For Docker setup, MongoDB runs automatically
+
+**Build Errors**
+```bash
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install
+npm run install-all
+```
+
+**Docker Issues**
+```bash
+# Reset Docker containers
+docker-compose down -v
 docker-compose up --build -d
 ```
 
