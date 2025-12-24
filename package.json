@@ -4,6 +4,7 @@
   "description": "AI-powered feedback management system inspired by Clueso.io",
   "main": "index.js",
   "scripts": {
+    "postinstall": "npm run install-frontend",
     "install-all": "npm run install-backend && npm run install-frontend",
     "install-backend": "cd backend && npm install",
     "install-frontend": "cd frontend && npm install",
@@ -32,6 +33,9 @@
   "author": "Your Name",
   "license": "MIT",
   "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "dependencies": {
     "concurrently": "^8.2.2"
   },
   "engines": {
