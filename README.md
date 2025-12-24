@@ -1,5 +1,15 @@
 # Clueso Clone – AI-Powered Feedback Management System
 
+<p align="center">
+  <img src="./assets/landing-page.png" alt="Clueso Landing Page" width="900"/>
+</p>
+
+🔗 **Live Demo**
+- Frontend: https://clueso-feedback-frontend.onrender.com
+- Backend API: https://clueso-feedback-backend.onrender.com
+
+📹 **Demo Video** - https://your-video-link-here
+
 ## 🎯 Project Overview
 
 This project is a full-stack implementation inspired by Clueso.io, a platform designed to collect, organize, and analyze user feedback intelligently. The system provides real-time feedback collection, AI-powered insights, and an intuitive dashboard for managing user responses.
@@ -92,100 +102,30 @@ Organizations struggle to manage scattered user feedback across multiple channel
 └─────────────────────────────────────┘
 ```
 
-## 🚀 Setup Instructions
+## 🐳 Docker Setup
 
 ### Prerequisites
 - Docker and Docker Compose
 - Git
 
-### Quick Start (Recommended)
+### Quick Start
 
 ```bash
 # Clone the repository
 git clone https://github.com/nitishchy12/clueso-feedback-platform.git
 cd clueso-feedback-platform
 
-# Start all services
+# Start all services (MongoDB + Backend + Frontend)
 docker-compose up -d
 
-# View logs (optional)
-docker-compose logs -f
-
-# Stop all services
-docker-compose down
+# Access the application
+# Frontend: http://localhost:3000
+# Backend API: http://localhost:5000
 ```
 
-### Manual Setup (Alternative)
-
-If you prefer to run without Docker:
-
-#### Prerequisites
-- Node.js (v18 or higher)
-- MongoDB (local or Atlas)
-- npm or yarn
-
-### Installation
-
-#### Docker Setup (Recommended)
-```bash
-git clone <repository-url>
-cd clueso-feedback-platform
-docker-compose up -d
-```
-
-#### Manual Setup
-1. **Clone the repository**
-```bash
-git clone <repository-url>
-cd clueso-feedback-platform
-```
-
-2. **Backend Setup**
-```bash
-cd backend
-npm install
-```
-
-Create `.env` file in backend directory:
-```env
-PORT=5000
-MONGODB_URI=mongodb://localhost:27017/clueso
-JWT_SECRET=your_jwt_secret_key_here
-OPENAI_API_KEY=your_openai_key_or_leave_blank_for_mock
-```
-
-Start backend server:
-```bash
-npm run dev
-```
-
-3. **Frontend Setup**
-```bash
-cd frontend
-npm install
-```
-
-Create `.env.local` file in frontend directory:
-```env
-NEXT_PUBLIC_API_URL=http://localhost:5000
-NEXT_PUBLIC_SOCKET_URL=http://localhost:5000
-```
-
-Start frontend development server:
-```bash
-npm run dev
-```
-
-4. **Access the Application**
-- Frontend: http://localhost:3000
-- Backend API: http://localhost:5000
-
-## 🐳 Docker Commands
+### Docker Commands
 
 ```bash
-# Start all services
-docker-compose up -d
-
 # View logs
 docker-compose logs -f
 
@@ -194,54 +134,6 @@ docker-compose down
 
 # Rebuild and start
 docker-compose up --build -d
-
-# Remove all containers and volumes
-docker-compose down -v
-```
-
-## 📁 Project Structure
-
-```
-clueso-feedback-platform/
-│
-├── frontend/
-│   ├── src/
-│   │   ├── app/
-│   │   │   ├── page.js              # Landing page
-│   │   │   ├── login/
-│   │   │   ├── signup/
-│   │   │   └── dashboard/
-│   │   ├── components/
-│   │   │   ├── Navbar.js
-│   │   │   ├── FeedbackForm.js
-│   │   │   ├── FeedbackList.js
-│   │   │   └── InsightsPanel.js
-│   │   └── services/
-│   │       ├── api.js               # API client
-│   │       └── socket.js            # Socket.IO client
-│   ├── package.json
-│   └── tailwind.config.js
-│
-├── backend/
-│   ├── src/
-│   │   ├── models/
-│   │   │   ├── User.js
-│   │   │   └── Feedback.js
-│   │   ├── routes/
-│   │   │   ├── auth.js
-│   │   │   └── feedback.js
-│   │   ├── controllers/
-│   │   │   ├── authController.js
-│   │   │   └── feedbackController.js
-│   │   ├── middleware/
-│   │   │   └── authMiddleware.js
-│   │   ├── services/
-│   │   │   └── aiService.js
-│   │   └── server.js
-│   ├── package.json
-│   └── .env.example
-│
-└── README.md
 ```
 
 ## 🔑 API Endpoints
@@ -267,57 +159,29 @@ The application uses Socket.IO for real-time communication:
 - `feedback:update` - Dashboard receives live updates
 - `connect` / `disconnect` - Connection management
 
+## 🚀 Deployment
+
+This project is fully deployed using Docker and Render.
+
+### Backend
+- **Platform**: Render (Docker Web Service)
+- **Database**: MongoDB Atlas
+- **Authentication**: JWT
+- **Environment Variables**: Managed via Render Dashboard
+
+### Frontend
+- **Platform**: Render (Docker Web Service)
+- **Communicates**: With backend via REST APIs
+
+### Database
+- **MongoDB Atlas**: Cloud-hosted
+- **Security**: Secure access via credentials and IP rules
+
+The system is production-ready and accessible publicly.
+
 ## 🤖 AI Integration
 
-### Implementation Options
-
-**Option A: OpenAI Integration (Recommended)**
-- Uses GPT-3.5/4 for intelligent summarization
-- Analyzes feedback patterns and sentiment
-- Generates actionable insights
-
-**Option B: Mock Service (Fallback)**
-- Rule-based categorization
-- Keyword extraction
-- Statistical analysis
-
-*Current implementation supports both modes based on API key availability.*
-
-In this submission, the mock AI service is enabled by default to ensure consistent local execution. The architecture supports seamless replacement with a real OpenAI provider.
-
-## ⏳ Free Tier Hosting Notice
-
-~~This backend is deployed on Render's free tier. Due to platform limitations, the service may spin down after inactivity.~~
-
-**UPDATE: This application now uses Docker for deployment, providing consistent performance and eliminating cold start issues.**
-
-## 🐳 Docker Deployment
-
-This application is containerized using Docker for easy deployment and consistent environments.
-
-### Quick Start with Docker
-
-```bash
-# Clone the repository
-git clone https://github.com/nitishchy12/clueso-feedback-platform.git
-cd clueso-feedback-platform
-
-# Start all services (MongoDB + Backend + Frontend)
-docker-compose up -d
-
-# Access the application
-# Frontend: http://localhost:3000
-# Backend API: http://localhost:5000
-# MongoDB: localhost:27017
-```
-
-### Docker Services
-
-- **MongoDB**: Database service with persistent data storage
-- **Backend**: Node.js/Express API server
-- **Frontend**: Next.js React application
-
-All services communicate internally via Docker networking, eliminating CORS and connectivity issues.
+**Mock AI Service**: Enabled by default for consistent execution. Architecture supports seamless OpenAI integration.
 
 ## 📝 Assumptions & Design Decisions
 
@@ -326,35 +190,6 @@ All services communicate internally via Docker networking, eliminating CORS and 
 3. **File Uploads**: Text-based feedback only (no attachments)
 4. **Scalability**: Designed for moderate traffic; production deployment would require load balancing
 5. **Security**: JWT tokens expire after 24 hours; passwords hashed with bcrypt (10 rounds)
-
-## 🧪 Testing
-
-Testing hooks are scaffolded. Automated tests can be added using Jest and React Testing Library.
-
-Backend testing setup:
-```bash
-cd backend
-npm test
-```
-
-Frontend testing setup:
-```bash
-cd frontend
-npm test
-```
-
-## 🚢 Deployment Considerations
-
-### Docker Deployment (Recommended)
-- **Container Registry**: Push to Docker Hub or GitHub Container Registry
-- **Cloud Platforms**: Deploy on AWS ECS, Google Cloud Run, or DigitalOcean
-- **VPS Deployment**: Use docker-compose on any VPS with Docker installed
-
-### Traditional Deployment
-- **Frontend**: Deploy on Vercel/Netlify
-- **Backend**: Deploy on Railway/Render/Heroku
-- **Database**: MongoDB Atlas for production
-- **Environment Variables**: Configure in deployment platform
 
 ## 📊 Future Enhancements
 
