@@ -37,9 +37,13 @@ const limiter = rateLimit({
 });
 app.use(limiter);
 
-// CORS configuration - simple for Docker
+// CORS configuration - production ready
 app.use(cors({
-  origin: "*",
+  origin: [
+    "http://localhost:3000",
+    "https://clueso-feedback-frontend.onrender.com",
+    "https://clueso-feedback-platform.vercel.app"
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']

@@ -32,9 +32,13 @@ api.interceptors.response.use(
   (error) => {
     console.error('API Error:', error);
     
-    // Handle network errors
+    // Handle network errors (backend spinning up)
     if (!error.response) {
-      toast.error('Network error. Please check your connection and try again.');
+      if (error.code === 'ERR_NETWORK' || error.code === 'ECONNABORTED') {
+        toast.error('Backend is waking up. Please wait a few seconds and retry.');
+      } else {
+        toast.error('Network error. Please check your connection and try again.');
+      }
       return Promise.reject(error);
     }
     
